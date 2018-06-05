@@ -12,17 +12,11 @@ void ChangeAppIcon(const void * data, int bytes)
     [NSApplication sharedApplication].applicationIconImage = img;
 }
 
-void * BeginChangeAppIcon(int w, int h)
+void ChangeAppIconFromCG(void * cgctxref)
 {
-    NSSize size = { (float)w, (float)h };
-    icon_canvas = [[NSImage alloc] initWithSize:size];
-    [icon_canvas lockFocus];
-    CGContextRef ctx = (CGContextRef)[NSGraphicsContext currentContext].graphicsPort;
-    return ctx;
-}
-
-void FinishChangeAppIcon()
-{
-    [icon_canvas unlockFocus];
-    [NSApplication sharedApplication].applicationIconImage = icon_canvas;
+	CGContextRef ctx = (CGContextRef)cgctxref;
+	CGImageRef image = CGBitmapContextCreateImage(ctx);
+    NSImage * img = [[NSImage alloc] initWithCGImage:image size:NSZeroSize];
+    [NSApplication sharedApplication].applicationIconImage = img;
+	CFRelease(image);
 }

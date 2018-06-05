@@ -2,9 +2,10 @@ BIN=touchbar
 SRC=touchbar.mm main.cpp
 SRC_H=touchbar.h
 CXX=clang++ -std=c++11
-CFLAGS=$(shell fltk-config --cflags)
-LDFLAGS=$(shell fltk-config --ldflags)
-LIBS=$(shell fltk-config --libs)
+FLTK-CONFIG ?= fltk-config
+CFLAGS=$(shell $(FLTK-CONFIG) --cflags)
+LDFLAGS=$(shell $(FLTK-CONFIG) --ldflags)
+LIBS=$(shell $(FLTK-CONFIG) --libs)
 
 all : $(BIN)
 

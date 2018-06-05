@@ -3,8 +3,7 @@
 
 extern "C" {
     void ChangeAppIcon(const void * data, int bytes);
-    void * BeginChangeAppIcon(int w, int h);
-    void FinishChangeAppIcon();
+	void ChangeAppIconFromCG(void * cgctxref);
 }
 
 #endif /* change_app_icon_h */

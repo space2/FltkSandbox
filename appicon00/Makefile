@@ -2,9 +2,10 @@ BIN=changeappicon
 SRC=change_app_icon.mm junk.cpp main.cpp
 SRC_H=change_app_icon.h junk.h
 CXX=clang++ -std=c++11
-CFLAGS=$(shell fltk-config --use-images --cflags)
-LDFLAGS=$(shell fltk-config --use-images --ldflags)
-LIBS=$(shell fltk-config --use-images --libs)
+FLTK-CONFIG ?= fltk-config
+CFLAGS=$(shell $(FLTK-CONFIG) --use-images --cflags)
+LDFLAGS=$(shell $(FLTK-CONFIG) --use-images --ldflags)
+LIBS=$(shell $(FLTK-CONFIG) --use-images --libs)
 
 all : $(BIN)
 

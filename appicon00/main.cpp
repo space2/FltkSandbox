@@ -17,12 +17,12 @@ static void CBSetIconFromPNG(Fl_Widget *, void *)
 
 static void CBSetIconFromCode(Fl_Widget *, void *)
 {
-    void * handle = BeginChangeAppIcon(128, 128);
-    fl_begin_offscreen((Fl_Offscreen)handle);
+	Fl_Offscreen ctx = fl_create_offscreen(128, 128);
+    fl_begin_offscreen((Fl_Offscreen)ctx);
     fl_rectf(0, 0, 128, 128, FL_DARK_RED);
     fl_rectf(8, 8, 112, 112, FL_RED);
     fl_end_offscreen();
-    FinishChangeAppIcon();
+	ChangeAppIconFromCG(ctx);
 }
 
 static void CBSetIconWithFLTK(Fl_Widget * w, void *)
