@@ -6,7 +6,7 @@
 #include <FL/x.H>
 
 #if FL_ABI_VERSION >= 10400
-#include <FL/Fl_Graphics_Driver.H>
+#include <FL/Fl_Image_Surface.H>
 #endif
 
 static NSString *touchBarItemId = @"com.something.item_id";
@@ -38,16 +38,11 @@ static NSString *touchBarItemId = @"com.something.item_id";
     printf("drawRect %f,%f+%f,%f\n", dirtyRect.origin.x, dirtyRect.origin.y, dirtyRect.size.width, dirtyRect.size.height);
     CGContextRef gc = (CGContextRef)[NSGraphicsContext currentContext].graphicsPort;
 #if FL_ABI_VERSION >= 10400
-	Fl_Graphics_Driver::default_driver().gc(gc);
-	CGContextSaveGState(gc);
-    CGContextSetShouldAntialias(gc, false);
-    CGContextTranslateCTM(gc, 0.5, dirtyRect.size.height-0.5f);
-    CGContextScaleCTM(gc, 1.0f, -1.0f); // now 0,0 is top-left point of the window
-	
-    draw_cb(userdata, dirtyRect.origin.x, dirtyRect.origin.y, dirtyRect.size.width, dirtyRect.size.height);
-	
-	CGContextRestoreGState(gc);
-	Fl_Graphics_Driver::default_driver().gc(0);
+	Fl_Image_Surface *surf = new Fl_Image_Surface(dirtyRect.size.width, dirtyRect.size.height, 0, gc);
+	Fl_Surface_Device::push_current(surf);
+	draw_cb(userdata, dirtyRect.origin.x, dirtyRect.origin.y, dirtyRect.size.width, dirtyRect.size.height);
+	Fl_Surface_Device::pop_current();
+	delete surf;
 #else
     fl_begin_offscreen((Fl_Offscreen)ctx);
     draw_cb(userdata, dirtyRect.origin.x, dirtyRect.origin.y, dirtyRect.size.width, dirtyRect.size.height);

@@ -13,7 +13,7 @@ run : $(BIN)
 	./$(BIN)
 
 $(BIN) : $(SRC) $(SRC_H)
-	$(CXX) -o $(BIN) $(SRC) $(CFLAGS) $(LDFLAGS) $(LIBS)
+	$(CXX) -o $(BIN) -g $(SRC) $(CFLAGS) $(LDFLAGS) $(LIBS)
 
 clean :
 	rm -f $(BIN)
